@@ -103,7 +103,7 @@ namespace FreeCourse.Services.Catalog.Services
 
         public async Task<Response<NoContent>> DeleteAsync(string Id)
         {
-            var result = await _courseCollection.DeleteOneAsync(Id);
+            var result = await _courseCollection.DeleteOneAsync(x => x.Id == Id);
             if (result.DeletedCount > 0)
             {
                 return Response<NoContent>.Success(204);
