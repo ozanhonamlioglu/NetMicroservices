@@ -34,7 +34,7 @@ namespace FreeCourse.IdentityServer.Services
 
       var passwordCheck = await _userManager.CheckPasswordAsync(existUser, context.Password);
 
-      if (passwordCheck == false)
+      if (!passwordCheck)
       {
         var errors = new Dictionary<string, object>
                 {

@@ -1,4 +1,4 @@
-using FreeCourse.Services.Catalog.Models;
+﻿using FreeCourse.Services.Catalog.Models;
 using FreeCourse.Services.Catalog.Services;
 using FreeCourse.Services.Catalog.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -41,7 +41,11 @@ namespace FreeCourse.Services.Catalog
         options.Filters.Add(new AuthorizeFilter());
       });
 
+      // herhangi bir class içeirisinde IOptisons<DatabaseSettings> yazarak, appsettings bilgilerine ulaşabiliriz Options pattern ile
       services.Configure<DatabaseSettings>(Configuration.GetSection("DatabaseSettings"));
+
+      // Aşağıdaki singleton'ı ise Options pattern yerine interface ile ulaşmak için yaptık, yani appsettings'e ulaşmak istersem
+      // private readonly IDatabaseSettings _databaseSettings; demem yeterli olacak.
       services.AddSingleton<IDatabaseSettings>(sp =>
       {
         return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
