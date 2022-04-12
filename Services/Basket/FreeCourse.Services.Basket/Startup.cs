@@ -35,7 +35,7 @@ namespace FreeCourse.Services.Basket
     {
 
       var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-
+      // var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireRole("Admin").Build();
 
       // normalde, sub claim'i nameIdentifier olarak mapleniyor
       // biz şimdi burada, sub'ı sub olarak almak için maplemeden çıkarttık.
