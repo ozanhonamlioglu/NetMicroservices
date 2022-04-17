@@ -1,6 +1,9 @@
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +29,21 @@ namespace FreeCourse.Services.Discount
     public void ConfigureServices(IServiceCollection services)
     {
 
-      services.AddControllers();
+      // her bir controller'a authorize etiketi eklemek yerine bu şekilde policy oluşturup
+      // services.AddControllers() içerisinde otomatik olarak kullanıyoruz.
+      var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+
+      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+      {
+        opt.Authority = Configuration["IdentityServerURL"];
+        opt.Audience = Configuration["Audience"];
+        opt.RequireHttpsMetadata = false;
+      });
+
+      services.AddControllers(opt =>
+      {
+        opt.Filters.Add(new AuthorizeFilter(requireAuthorizePolicy));
+      });
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "FreeCourse.Services.Discount", Version = "v1" });
@@ -45,6 +62,7 @@ namespace FreeCourse.Services.Discount
 
       app.UseRouting();
 
+      app.UseAuthentication();
       app.UseAuthorization();
 
       app.UseEndpoints(endpoints =>
