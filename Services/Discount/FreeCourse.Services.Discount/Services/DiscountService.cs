@@ -32,7 +32,7 @@ namespace FreeCourse.Services.Discount.Services
       return Response<List<Models.Discount>>.Success(discounts.ToList(), 200);
     }
 
-    public async Task<Response<Models.Discount>> GetByCode(string code, string userId)
+    public async Task<Response<Models.Discount>> GetByCodeAndUserId(string code, string userId)
     {
       var discount = await _dbConnection.QueryAsync<Models.Discount>("select * from discount where userId=@UserId and code=@Code",
         new { UserId = userId, Code = code });
