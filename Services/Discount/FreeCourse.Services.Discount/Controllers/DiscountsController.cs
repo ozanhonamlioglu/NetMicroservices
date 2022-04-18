@@ -55,7 +55,7 @@ namespace FreeCourse.Services.Discount.Controllers
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Update(int id)
+    public async Task<IActionResult> Delete(int id)
     {
       return CreateActionResultInstance(await _discountService.Delete(id));
     }

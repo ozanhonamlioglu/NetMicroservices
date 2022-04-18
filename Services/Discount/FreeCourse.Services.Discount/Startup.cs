@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,6 +31,8 @@ namespace FreeCourse.Services.Discount
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+
       services.AddHttpContextAccessor();
       services.AddScoped<ISharedIdentityService, SharedIdentityService>();
       services.AddScoped<IDiscountService, DiscountService>();
