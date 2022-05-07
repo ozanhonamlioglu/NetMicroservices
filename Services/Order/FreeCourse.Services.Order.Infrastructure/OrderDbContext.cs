@@ -10,6 +10,7 @@ namespace FreeCourse.Services.Order.Infrastructure
   public class OrderDbContext : DbContext
   {
 
+    // database schema değiştirmek için bunu kullandık. Aksi halde herşeyi default "dbo" schema'ya kaydedecektir.
     public const string DEFAULT_SCHEMA = "ordering";
 
     public OrderDbContext(DbContextOptions<OrderDbContext> options) : base(options)
